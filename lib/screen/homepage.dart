@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:search/model/college_model.dart';
+import 'package:lottie/lottie.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -6,18 +8,22 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List data = <String>['kathmandu', 'pokhara', 'chitwan'];
-
-  List searchresult = [];
-
-//Is search Empty
+  //Is search Empty
   bool isSeachempty = false;
+
+//search result
+
+  List<CollegeModel> searchresult = [];
+
+  // List data = <String>['kathmandu', 'pokhara', 'chitwan'];
 
 //Searching Method
   List showSeach({required String query}) {
     setState(() {
-      searchresult = data
-          .where((e) => e.toLowerCase().contains(query.toLowerCase()))
+      searchresult = collegeList
+          .where((e) =>
+              e.name.toLowerCase().contains(query.toLowerCase()) ||
+              e.location.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
     return searchresult;
@@ -44,7 +50,7 @@ class _SearchState extends State<Search> {
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey, width: 1),
                   ),
-                  hintText: 'Type name of city',
+                  hintText: 'Type name of college',
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -68,13 +74,22 @@ class _SearchState extends State<Search> {
                                 decoration: BoxDecoration(
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                  child: Text(
-                                    searchresult[index],
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      collegeList[index].name,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      collegeList[index].location,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 )),
                           ],
                         );
@@ -87,11 +102,10 @@ class _SearchState extends State<Search> {
                   //       return Text(data[index]);
                   //     })
                   Column(
-                      children: const [
-                        SizedBox(
-                          height: 200,
-                        ),
-                        CircularProgressIndicator(),
+                      children: [
+                        // CircularProgressIndicator(),
+                        Lottie.network(
+                            'https://assets4.lottiefiles.com/packages/lf20_szlepvdh.json')
                       ],
                     )
             ],
